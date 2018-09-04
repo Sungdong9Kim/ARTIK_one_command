@@ -67,6 +67,8 @@ if target_os not in ['arduino','darwin','ios', 'android', 'msys_nt', 'windows']:
     if env.get('SECURED') == '1':
         SConscript(build_dir + 'examples/OCFSecure/SConscript')
         SConscript(build_dir + 'examples/OCFDeviceBuilder/SConscript')
+        SConscript(build_dir + 'examples/OCFArtikEnviro/SConscript')
+        SConscript(build_dir + 'examples/OCFArtikLED/SConscript')
 
 java_build = None
 if (env.get('BUILD_JAVA') and env.get('JAVA_HOME')) or target_os == 'android':
