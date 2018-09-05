@@ -22,7 +22,7 @@ git clone https://github.com/Sungdong9Kim/ARTIK_one_command.git
 
 cp ARTIK_one_command/Sconstruct .
 cp -r ARTIK_one_commnad/OCFArtikEnviro examples
-cp -r ARTIK_one_commnad/OCFArtikLED examples
+#cp -r ARTIK_one_commnad/OCFArtikLED examples
 
 scons examples/OCFArtikEnviro
-scons examples/OCFArtikLED
+#scons examples/OCFArtikLED
