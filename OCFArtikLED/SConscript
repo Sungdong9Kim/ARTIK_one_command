@@ -1,6 +1,5 @@
 # /******************************************************************
 # *
-# * Copyright 2017 Vprime All Rights Reserved.
 # *
 # *
 # *
@@ -34,20 +33,24 @@ build_dir = env.get('BUILD_DIR')
 # Build flags
 ######################################################################
 samples_env.PrependUnique(CPPPATH=[
-    '#/resource/include/',
+    '#/resource/include',
     '#/resource/csdk/include',
     '#/resource/csdk/stack/include',
+    '#/resource/csdk/stack/include/internal',
     '#/resource/csdk/stack/include/experimental',
     '#/resource/csdk/security/include',
     '#/resource/csdk/connectivity/api',
+    '#/resource/csdk/logger/include',
     '#/resource/oc_logger/include',
     '#/resource/csdk/logger/include/experimental',
     '/usr/include/arm-linux-gnueabihf/artik/base',
     '/usr/include/arm-linux-gnueabihf/artik/systemio'
 ])
 cpp_defines = ['__WITH_DTLS__', 'TB_LOG']
-libraries = ['octbstack', 'oc']
-# identify which hardware the samples will be running on.
+libraries = ['octbstack']
+libraries.append('oc')
+#libraries.append('log')
+		
 platform_info = p.platform()
 joule = 'Linux' in platform_info and 'joule' in platform_info and \
 'Ubuntu' in platform_info
@@ -98,7 +101,6 @@ if joule or raspberry_pi or artik_530s:
                 libraries.append('artik-sdk-base')
                 libraries.append('artik-sdk-systemio')
 #**********************************************************************
-
         else:
             print "ERROR: unknown board"
     conf.Finish()
@@ -120,21 +122,20 @@ if target_os in ['linux']:
 ######################################################################
 # Source files and Targets
 ######################################################################
-client = samples_env.Program('client', ['client.c'])
+#client = samples_env.Program('client', ['client.c'])
 server = samples_env.Program('server', ['server.cpp'])
-examples_dir = '/examples/OCFArtikLED/'
-client_dat = samples_env.Install(
-    build_dir + examples_dir, src_dir + examples_dir + 'ocf_svr_db_client.dat')
-client_dev = samples_env.Install(
-    build_dir + examples_dir, src_dir + examples_dir + 'device_properties.dat')
-server_dat = samples_env.Install(
-    build_dir + examples_dir, src_dir + examples_dir + 'ocf_svr_db_server.dat')
-introspection_dat = samples_env.Install(
-    build_dir + examples_dir, src_dir + examples_dir + 'switch_introspection.dat')
+examples_dir = '/examples/OCFDeviceBuilder/'
+#client_dat = samples_env.Install(
+#    build_dir + examples_dir, src_dir + examples_dir + 'ocf_svr_db_client.dat')
+#client_dev = samples_env.Install(
+#    build_dir + examples_dir, src_dir + examples_dir + 'device_properties.dat')
+#server_dat = samples_env.Install(
+#    build_dir + examples_dir, src_dir + examples_dir + 'ocf_svr_db_server.dat')
 
-list_of_samples = [client, client_dat, client_dev, server, server_dat]
+#list_of_samples = [client, client_dat, client_dev, server, server_dat]
+list_of_samples = [server]
 
-Alias("artikExamples", list_of_samples)
+Alias("OCFDeviceBuilder", list_of_samples)
 
-env.AppendTarget('aritkExamples')
+env.AppendTarget('OCFDeviceBuilder')
 
