@@ -20,6 +20,9 @@ set -x #echo on
 
 git clone https://github.com/Sungdong9Kim/ARTIK_one_command.git
 
-cd ARTIK_one_command
-cp -r OCFArtikEnviro ../examples
-cp -r OCFArtikLED ../examples
+cp ARTIK_one_command/Sconstruct .
+cp -r ARTIK_one_commnad/OCFArtikEnviro examples
+cp -r ARTIK_one_commnad/OCFArtikLED examples
+
+scons examples/OCFArtikEnviro
+scons examples/OCFArtikLED
