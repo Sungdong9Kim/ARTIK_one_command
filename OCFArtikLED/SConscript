@@ -138,4 +138,3 @@ list_of_samples = [server]
 Alias("OCFDeviceBuilder", list_of_samples)
 
 env.AppendTarget('OCFDeviceBuilder')
-
