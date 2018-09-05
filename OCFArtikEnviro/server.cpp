@@ -28,11 +28,7 @@
 #include <windows.h>
 #endif
 
-#ifdef MRAA
-#include "mraa.hpp"
-#endif
 
-#ifdef ARTIK
 #include <artik_module.h>
 #include <artik_loop.h>
 #include <artik_platform.h>
@@ -42,8 +38,6 @@ struct led_gpio{
  artik_gpio_handle handle;
  artik_gpio_config config;
 };
-
-#endif
 
 #include "ocstack.h"
 #include "OCPlatform.h"
@@ -61,6 +55,12 @@ namespace PH = std::placeholders;
 */
 
 #define INTERFACE_KEY "if"
+
+// artik gpio setting
+artik_gpio_module *gpio = (artik_gpio_module *) artik_request_api_module("gpio");
+struct led_gpio led = {NULL, {ARTIK_EAGLEYE530_AGPIO0,0, GPIO_OUT, GPIO_EDGE_NONE, 0, NULL} };
+artik_error ret = S_OK;
+
 
 /*
 * default class, so that we have to define less variables/functions.
@@ -116,16 +116,6 @@ class BinaryswitchResource : public Resource
          * @return OC_STACK_OK on success
          */
         OCStackResult sendNotification();
-/* Raspberry Pi GPIO
-mraa::Gpio *gpio;
-int ledPin = 7;
-*/
-// artik gpio setting
-#ifdef ARTIK
-artik_gpio_module *gpio = (artik_gpio_module *) artik_request_api_module("gpio");
-struct led_gpio led = {NULL, {ARTIK_EAGLEYE530_AGPIO0,0, GPIO_OUT, GPIO_EDGE_NONE, 0, NULL} };
-artik_error ret = S_OK;
-#endif
 
    private:
         /*
@@ -190,31 +180,6 @@ BinaryswitchResource::BinaryswitchResource(std::string resourceUri)
     // initialize vector rt  Resource Type
     m_var_value_rt.push_back("oic.r.switch.binary");
     m_var_value_value = false; // current value of property "value" Status of the switch
-/* GPIO for Raspberry Pi
-gpio = new mraa::Gpio(ledPin);
-if (!gpio)
-{
-    std::cout << "Error instantiating gpio" << std::endl;
-}
-gpio->dir(mraa::DIR_OUT);
-gpio->write(1);
-sleep(1);
-gpio->write(0);        
-}
-*/
-//ARTIK Operation test
-ret = gpio->request(&led.handle, &led.config);
-if (ret != S_OK)
-{
- gpio->release(led.handle);
- fprintf(stdout, "TEST: %s %s\n", __func__, (ret == S_OK) ? "succeeded" : "failed");
-}
-else
-{
- gpio->write(led.handle, 1);
- sleep(1);
- gpio->write(led.handle, 0);
-}
 }
 /*
 * Destructor code
@@ -4382,6 +4347,20 @@ void handle_signal(int signal)
 // starts the server
 int main(void)
 {
+ 
+ //ARTIK Operation test
+    ret = gpio->request(&led.handle, &led.config);
+    if (ret != S_OK)
+    {
+       gpio->release(led.handle);
+       fprintf(stdout, "TEST: %s %s\n", __func__, (ret == S_OK) ? "succeeded" : "failed");
+    }
+    else
+    {
+       gpio->write(led.handle, 1);
+       sleep(1);
+       gpio->write(led.handle, 0);
+    }
     Platform platform;
     if(OC_STACK_OK != platform.start())
     {
