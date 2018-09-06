@@ -124,7 +124,7 @@ if target_os in ['linux']:
 ######################################################################
 #client = samples_env.Program('client', ['client.c'])
 server = samples_env.Program('server', ['server.cpp'])
-examples_dir = '/examples/OCFDeviceBuilder/'
+examples_dir = '/examples/OCFArtikLED/'
 #client_dat = samples_env.Install(
 #    build_dir + examples_dir, src_dir + examples_dir + 'ocf_svr_db_client.dat')
 #client_dev = samples_env.Install(
@@ -135,6 +135,6 @@ examples_dir = '/examples/OCFDeviceBuilder/'
 #list_of_samples = [client, client_dat, client_dev, server, server_dat]
 list_of_samples = [server]
 
-Alias("OCFDeviceBuilder", list_of_samples)
+Alias("OCFArtikLED", list_of_samples)
 
-env.AppendTarget('OCFDeviceBuilder')
+env.AppendTarget('OCFArtikLED')
