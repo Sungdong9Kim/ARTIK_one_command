@@ -18,9 +18,10 @@ set -x #echo on
 #
 #############################
 
-cp ARTIK_one_command/Sconstruct .
+cp Sconstruct .
 #cp -r ARTIK_one_commnad/OCFArtikEnviro examples
-cp -r ARTIK_one_commnad/OCFArtikLED examples
+cp -r OCFArtikLED examples
 
 #scons examples/OCFArtikEnviro
+cd ..
 scons examples/OCFArtikLED
