@@ -34,7 +34,7 @@
 #include "ocpayload.h"
 
 //===Header and Fuction for Artik==============
-#ifdef ARTIK
+//#ifdef ARTIK
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -99,7 +99,7 @@ int setup() {
      return -1;
    return 0;
 }
-#endif
+//#endif
 //=============================================
 
 using namespace OC;
@@ -513,9 +513,9 @@ OCEntityHandlerResult BinaryswitchResource::post(QueryParamsMap queries, const O
             {
                 m_var_value_value = temp;
 		//==Control artik light============================
-        	#ifdef ARTIK
+        	//#ifdef ARTIK
         	digitalWrite(outputPin, m_var_value_value);
-        	#endif
+        	//#endif
        		//=================================================
                 std::cout << "\t\t" << "property 'value' UPDATED: " << ((m_var_value_value) ? "true" : "false") << std::endl;
             }
@@ -1053,7 +1053,7 @@ void handle_signal(int signal)
 int main(void)
 {
     //=enabling GPIO and checking and testing on ARTIK==========================
-    #ifdef ARTIK
+    //#ifdef ARTIK
     if (setup() == -1)
       {
         exit(1);
@@ -1063,7 +1063,7 @@ int main(void)
     sleep(1);
     digitalWrite(outputPin, LOW);
     sleep(1);
-    #endif
+    //#endif
     //===========================================================================
 	
     Platform platform;
